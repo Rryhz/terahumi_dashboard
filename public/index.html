@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Terahumi Dashboard</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #121826; 
+            color: #ffffff;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* CUSTOM UTILITIES */
+        .text-muted-custom { color: #9ca3af !important; }
+        .text-emerald { color: #10b981 !important; }
+        .bg-emerald { background-color: #10b981 !important; color: #064e3b !important; }
+
+        /* CARDS */
+        .card-stylish { 
+            border: none; 
+            border-radius: 20px; 
+            background: #212936; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+            transition: transform 0.3s ease;
+        }
+        .card-stylish:hover { transform: translateY(-5px); }
+
+        /* SIDEBAR ITEMS */
+        .rack-item {
+            border: none;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            background-color: rgba(255, 255, 255, 0.03);
+            color: #e5e7eb;
+            transition: all 0.2s ease;
+        }
+        .rack-item:hover { background-color: rgba(255, 255, 255, 0.08); }
+        .rack-item.active {
+            background-color: #3b82f6 !important;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        /* STATUS PULSE */
+        .pulse-online {
+            width: 10px;
+            height: 10px;
+            background-color: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: pulse-green 2s infinite;
+        }
+        @keyframes pulse-green {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* MAP BOX */
+        .map-box { 
+            height: 550px; 
+            border-radius: 24px; 
+            overflow: hidden; 
+            border: 3px solid #212936;
+        }
+
+        /* BADGE */
+        .badge-temp { padding: 8px 12px; border-radius: 10px; font-weight: 700; }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #121826; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
