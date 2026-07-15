@@ -1,0 +1,7 @@
+SELECT time AS "time", (data->>'temp')::float AS "Suhu", (data->>'hum')::float AS "Kelembapan" 
+FROM sensor_data WHERE $__timeFilter(time) AND sensor_id IN ($sensor_id) ORDER BY time ASC
+
+SELECT time AS "time", (data->>'temp')::float AS value
+FROM sensor_data
+WHERE sensor_id = 'TH-001'
+ORDER BY time
