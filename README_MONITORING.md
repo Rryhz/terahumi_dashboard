@@ -101,7 +101,7 @@ CORS_ORIGIN=http://localhost:3000
 
 ---
 
-## 🌐 Dokumentasi REST API Lokal (Opsional)
+## 🌐 Dokumentasi REST API Lokal
 
 Jika `ENABLE_HTTP_API` diatur ke `true`, program `monitoring.js` akan menjalankan server HTTP mini berbasis Express pada Raspberry Pi (default port: `5000`). Ini digunakan untuk tujuan debugging atau verifikasi lokal:
 
