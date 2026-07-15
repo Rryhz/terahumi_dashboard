@@ -57,72 +57,83 @@ Contoh kolom:
   - `hum`
 ---
 
-## Backend 
+## 🖥️ Backend (API Server)
 
-### Environment variables (Backend)
+### 📦 Panduan Instalasi & Eksekusi Backend
+1. Masuk ke direktori backend:
+   ```bash
+   cd backend
+   ```
+2. Install semua dependencies Node.js:
+   ```bash
+   npm install
+   ```
+3. Buat file konfigurasi `.env` di dalam folder `backend/` dan sesuaikan nilainya:
+   ```env
+   PORT=5000
+   JWT_SECRET=T3r4huM1_S3cr3tKey_2026
+   CORS_ORIGINS=http://localhost:3000,http://104.214.173.123:3000
+   PGHOST=localhost
+   PGDATABASE=terahumi
+   PGUSER=teraterapostgres
+   PGPASSWORD=T3r4huM1
+   PGPORT=5437
+   OFFLINE_AFTER_MS=30000
+   GRAFANA_BASE_URL=http://104.214.173.123:3000
+   ```
+4. Jalankan backend dalam mode development:
+   ```bash
+   npm run dev
+   ```
+   Atau jalankan menggunakan **PM2** di production:
+   ```bash
+   pm2 start server.js --name "terahumi-backend"
+   ```
 
+### ⚙️ Environment Variables (Backend)
 | Variable | Default | Fungsi |
 |---|---:|---|
-| `PORT` | `5000` | Port backend |
-| `JWT_SECRET` | `CHANGE_ME_SECRET` | Secret JWT (WAJIB diganti di production) |
-| `CORS_ORIGINS` | `http://localhost:5173` | Daftar origin frontend yang diizinkan, pisahkan dengan koma |
-| `DATABASE_URL` | - | Connection string Postgres (opsional) |
-| `PGHOST` | `localhost` | Host Postgres |
-| `PGDATABASE` | `terahumi` | Nama DB |
-| `PGUSER` | `postgres` | User DB |
-| `PGPASSWORD` | `T3r4huM1` | Password DB |
-| `PGPORT` | `5432` | Port DB |
-| `OFFLINE_AFTER_MS` | `30000` | Rack dianggap Offline jika data terakhir lebih lama dari ini |
-| `GRAFANA_BASE_URL` | (lihat kode) | Base URL Grafana (cont. `http://10.10.240.179:3000`) |
----
-
-## Endpoint Utama (Backend)
-
-- `GET /health`  
-  Cek koneksi DB.
-
-- `POST /api/auth/login`  
-  Body JSON:
-  ```json
-  { "username": "admin", "password": "..." }
-  ```
-  Response:
-  - `token` (JWT)
-  - `user` (id/username/role)
-
-- `GET /api/racks`  
-  Mengembalikan seluruh rack dari tabel `racks` + telemetry terakhir dari `sensor_data`.
-
-- `PUT /api/racks/:sensor_id`  
-  Upsert metadata rack (nama, lokasi, foto, koordinat).
-
-- `DELETE /api/racks/:sensor_id`  
-  Hapus rack.
-
-- `GET /api/grafana/url?sensor_id=...`  
-  Mengembalikan URL Grafana untuk analitik sensor tersebut.
+| `PORT` | `5000` | Port tempat backend berjalan |
+| `JWT_SECRET` | `CHANGE_ME_SECRET` | Kunci enkripsi token login admin |
+| `CORS_ORIGINS` | `http://localhost:3000` | Domain/IP frontend yang diizinkan mengakses API |
+| `PGHOST` | `localhost` | Host database PostgreSQL |
+| `PGDATABASE` | `terahumi` | Nama database |
+| `PGUSER` | `postgres` | Username database |
+| `PGPASSWORD` | `T3r4huM1` | Password database |
+| `PGPORT` | `5432` | Port database |
+| `OFFLINE_AFTER_MS` | `30000` | Batas waktu (ms) sensor dianggap offline jika data tidak masuk |
+| `GRAFANA_BASE_URL` | - | Base URL Grafana Dashboard untuk analitik sensor |
 
 ---
 
-## Frontend (Web Dashboard)
+## 🌐 Endpoint Utama (Backend)
+* `GET /health` : Memeriksa status konektivitas database.
+* `POST /api/auth/login` : Login admin (Body: `{ "username", "password" }`).
+* `GET /api/racks` : Mengambil data seluruh rak beserta status telemetri terakhirnya.
+* `PUT /api/racks/:sensor_id` : Menambahkan atau mengupdate metadata rak.
+* `DELETE /api/racks/:sensor_id` : Menghapus data rak tertentu.
+* `GET /api/grafana/url?sensor_id=...` : Mengambil URL iframe Grafana yang aman untuk grafik telemetri.
 
-### Menjalankan
-Install dependency:
-```bash
-npm install
-npm run dev
-```
+---
 
-Frontend berjalan di:
-- `http://localhost:3000` (React App)
+## 💻 Frontend (Web Dashboard React)
 
-> Pastikan backend CORS mengizinkan origin port yang Anda gunakan.
-
-### Mengatur URL Backend
-Di frontend, pastikan base URL mengarah ke IP backend yang benar:
-- Backend: `http://10.10.240.179:5000`
-
-Jika sebelumnya hardcode ke IP lama, ganti ke IP baru.
+### 📦 Panduan Instalasi & Eksekusi Frontend
+1. Pastikan Anda berada di root direktori proyek (`terahumi-dashboard/`).
+2. Install semua dependencies React:
+   ```bash
+   npm install
+   ```
+3. Buat file `.env` di root direktori untuk mengarahkan URL API ke backend:
+   ```env
+   REACT_APP_API_BASE_URL=http://localhost:5000
+   ```
+   *(Ganti `localhost:5000` dengan IP VPS backend Anda jika dideploy di server cloud, contoh: `http://104.214.173.123:5000`)*
+4. Jalankan aplikasi React:
+   ```bash
+   npm start
+   ```
+   Aplikasi akan otomatis berjalan pada port default: `http://localhost:3000` (atau port alternatif jika port 3000 digunakan).
 
 ---
 

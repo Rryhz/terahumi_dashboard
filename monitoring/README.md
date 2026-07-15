@@ -101,6 +101,41 @@ CORS_ORIGIN=http://localhost:3000
 
 ---
 
+## 🌐 Dokumentasi REST API Lokal (Opsional)
+
+Jika `ENABLE_HTTP_API` diatur ke `true`, program `monitoring.js` akan menjalankan server HTTP mini berbasis Express pada Raspberry Pi (default port: `5000`). Ini digunakan untuk tujuan debugging atau verifikasi lokal:
+
+### 1. Health Check
+* **Endpoint:** `GET /health`
+* **Deskripsi:** Memeriksa status koneksi internet/database dari Raspberry Pi ke PostgreSQL VPS.
+* **Format Respons (JSON):**
+  ```json
+  {
+    "ok": true
+  }
+  ```
+
+### 2. Telemetri Terakhir (Latest Telemetry)
+* **Endpoint:** `GET /api/racks`
+* **Deskripsi:** Mengambil data pembacaan sensor terakhir yang terdaftar dari database.
+* **Format Respons (JSON):**
+  ```json
+  [
+    {
+      "id": 1,
+      "sensor_id": "TH-001",
+      "name": "Rack TH-001",
+      "temp": 25.7,
+      "hum": 53.6,
+      "status": "Online",
+      "pos": [-6.304904944290723, 106.63349615981343],
+      "last_time": "2026-07-16T02:00:00.000Z"
+    }
+  ]
+  ```
+
+---
+
 ## 🚀 Menjalankan Aplikasi di Raspberry Pi
 
 ### Opsi A: Menjalankan untuk Pengujian (Development Mode)
@@ -142,11 +177,5 @@ Sangat direkomendasikan menggunakan pengelola proses **PM2** agar aplikasi otoma
 ---
 
 ## 📌 Catatan Penting untuk Troubleshooting
-* **Error `Permission denied` pada `/dev/ttyUSB0`**:
-  Jika Raspberry Pi memunculkan pesan error hak akses port serial, tambahkan user sistem Anda (`pi`) ke grup `dialout` dengan perintah:
-  ```bash
-  sudo usermod -a -G dialout $USER
-  ```
-  *Catatan: Anda perlu men-log out atau me-reboot Raspberry Pi setelah menjalankan perintah ini.*
 * **Koneksi VPS gagal (`Connection timeout`)**:
   Pastikan port database `5437` pada firewall VPS (UFW / Azure Network Security Group) telah diizinkan untuk menerima koneksi masuk dari alamat IP Raspberry Pi.
